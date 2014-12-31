@@ -1,0 +1,10 @@
+/Users/nobel/AndroidStudioProjects/WatchFace/Wearable/build/intermediates/classes/debug
+/Users/nobel/AndroidStudioProjects/WatchFace/Wearable/build/intermediates/pre-dexed/debug/internal_impl-21.0.3-5004dbb91280191118b1c917facda937fee70f5b.jar
+/Users/nobel/AndroidStudioProjects/WatchFace/Wearable/build/intermediates/pre-dexed/debug/support-annotations-21.0.3-eb71de3b1c226bbec3cae44b7a15591cb2868e00.jar
+/Users/nobel/AndroidStudioProjects/WatchFace/Wearable/build/intermediates/pre-dexed/debug/classes-6b83d3e9f0b32f9cc6796dc0160519bbad0be2e2.jar
+/Users/nobel/AndroidStudioProjects/WatchFace/Wearable/build/intermediates/pre-dexed/debug/classes-83aaa5858531ad3e99b43466548184abc8fdd98c.jar
+/Users/nobel/AndroidStudioProjects/WatchFace/Wearable/build/intermediates/pre-dexed/debug/internal_impl-21.0.3-4cda4cd4003df233526698957960c1b2af281814.jar
+/Users/nobel/AndroidStudioProjects/WatchFace/Wearable/build/intermediates/pre-dexed/debug/classes-c20e3f08c01805e106a2a4a5cf66401c9e3587ab.jar
+/Users/nobel/AndroidStudioProjects/WatchFace/Wearable/build/intermediates/pre-dexed/debug/classes-f615ad2e3eeb5cfc55d850744b12ab6c07841c85.jar
+/Users/nobel/AndroidStudioProjects/WatchFace/Wearable/build/intermediates/pre-dexed/debug/classes-83e2a7a00b6d9deb56ab78852f7bd19c17f09cd8.jar
+/Users/nobel/AndroidStudioProjects/WatchFace/Wearable/build/intermediates/pre-dexed/debug/classes-117cea410353103e2f7826f36a5f97f8b98f775c.jar

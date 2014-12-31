@@ -1,0 +1,10 @@
+/Users/nobel/AndroidStudioProjects/WatchFace/Application/build/intermediates/classes/debug
+/Users/nobel/AndroidStudioProjects/WatchFace/Application/build/intermediates/pre-dexed/debug/internal_impl-21.0.3-cb38d7775f67fc3c25ecee72416bb78ba278d2df.jar
+/Users/nobel/AndroidStudioProjects/WatchFace/Application/build/intermediates/pre-dexed/debug/support-annotations-21.0.3-eb71de3b1c226bbec3cae44b7a15591cb2868e00.jar
+/Users/nobel/AndroidStudioProjects/WatchFace/Application/build/intermediates/pre-dexed/debug/classes-6576976ce05069d212e494dd8e3ffa62c2f9c643.jar
+/Users/nobel/AndroidStudioProjects/WatchFace/Application/build/intermediates/pre-dexed/debug/classes-0f1982662b9fe07af7eea94692f10217a265e82c.jar
+/Users/nobel/AndroidStudioProjects/WatchFace/Application/build/intermediates/pre-dexed/debug/internal_impl-21.0.3-efb3a0ab9f30b6701aaf40a3c889af5d480715f3.jar
+/Users/nobel/AndroidStudioProjects/WatchFace/Application/build/intermediates/pre-dexed/debug/classes-06a6ff29c3c03adf1e652b18bb31d12c36e589d7.jar
+/Users/nobel/AndroidStudioProjects/WatchFace/Application/build/intermediates/pre-dexed/debug/classes-ce43054d7fb5857e8a770a6a548b2e3c64dd8fdf.jar
+/Users/nobel/AndroidStudioProjects/WatchFace/Application/build/intermediates/pre-dexed/debug/classes-b2541760732078b62fd571c8d87229e367ab90cc.jar
+/Users/nobel/AndroidStudioProjects/WatchFace/Application/build/intermediates/pre-dexed/debug/classes-e62ea0a97e1b45e5d27ab71b1f0b164d063bf004.jar
