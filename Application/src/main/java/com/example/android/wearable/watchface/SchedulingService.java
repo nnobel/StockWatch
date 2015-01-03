@@ -201,8 +201,10 @@ public class SchedulingService extends IntentService implements GoogleApiClient.
             for (int i = 0; i < json.getJSONArray("indices").length(); i++) {
                 JSONObject jsonObject = jsonIndices.getJSONObject(i);
                 JSONObject changePercentageToday = jsonObject.getJSONObject("changePercentageToday");
+                Log.d(TAG, "changePercentageToday: " + changePercentageToday);
 
                 double change = changePercentageToday.getDouble("data");
+                Log.d(TAG, "change: " + change);
 
                 indices.put(getIndex(jsonObject.getString("name")), change);
             }

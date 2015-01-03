@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class BootReceiver extends BroadcastReceiver {
-    private static final String TAG = "MyService";
+    private static final String TAG = "BootReceiver";
 //    private AsyncTask<Void, Void, String> mLoadIndicesTask = new LoadIndexesTask();
 //    Map<Index, Double> mIndices;
 

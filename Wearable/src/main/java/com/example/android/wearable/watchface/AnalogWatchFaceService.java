@@ -227,19 +227,19 @@ public class AnalogWatchFaceService extends CanvasWatchFaceService {
 
             mHourPaint = new Paint();
             mHourPaint.setARGB(255, 200, 200, 200);
-            mHourPaint.setStrokeWidth(9.f);
+            mHourPaint.setStrokeWidth(30.f);
             mHourPaint.setAntiAlias(true);
             mHourPaint.setStrokeCap(Paint.Cap.ROUND);
 
             mMinutePaint = new Paint();
             mMinutePaint.setARGB(255, 200, 200, 200);
-            mMinutePaint.setStrokeWidth(6.f);
+            mMinutePaint.setStrokeWidth(15.f);
             mMinutePaint.setAntiAlias(true);
             mMinutePaint.setStrokeCap(Paint.Cap.ROUND);
 
             mSecondPaint = new Paint();
             mSecondPaint.setARGB(255, 255, 0, 0);
-            mSecondPaint.setStrokeWidth(3.f);
+            mSecondPaint.setStrokeWidth(10.f);
             mSecondPaint.setAntiAlias(true);
             mSecondPaint.setStrokeCap(Paint.Cap.ROUND);
 
@@ -348,9 +348,9 @@ public class AnalogWatchFaceService extends CanvasWatchFaceService {
             float minRot = minutes / 30f * (float) Math.PI;
             float hrRot = ((mTime.hour + (minutes / 60f)) / 6f ) * (float) Math.PI;
 
-            float secLength = centerX - 20;
-            float minLength = centerX - 40;
-            float hrLength = centerX - 80;
+            float secLength = centerX - 40;
+            float minLength = centerX - 60;
+            float hrLength = centerX - 90;
 
             if (!isInAmbientMode()) {
                 float secX = (float) Math.sin(secRot) * secLength;
@@ -399,7 +399,7 @@ public class AnalogWatchFaceService extends CanvasWatchFaceService {
         }
         private Paint getHourPaint() {
             if (mIndices != null && !mIndices.isEmpty()) {
-                double change = mIndices.get(Index.DOW);
+                double change = mIndices.get(Index.OMX);
                 Log.d(TAG, "hourpaint: " + change);
 
                 if (change < 0) {
