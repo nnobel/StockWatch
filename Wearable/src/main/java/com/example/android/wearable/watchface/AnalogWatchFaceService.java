@@ -355,62 +355,32 @@ public class AnalogWatchFaceService extends CanvasWatchFaceService {
             if (!isInAmbientMode()) {
                 float secX = (float) Math.sin(secRot) * secLength;
                 float secY = (float) -Math.cos(secRot) * secLength;
-                canvas.drawLine(centerX, centerY, centerX + secX, centerY + secY, getSecondPaint());
+                canvas.drawLine(centerX, centerY, centerX + secX, centerY + secY, getPaint(mSecondPaint));
             }
 
             float minX = (float) Math.sin(minRot) * minLength;
             float minY = (float) -Math.cos(minRot) * minLength;
-            canvas.drawLine(centerX, centerY, centerX + minX, centerY + minY, getMinutePaint());
+            canvas.drawLine(centerX, centerY, centerX + minX, centerY + minY, getPaint(mMinutePaint));
 
             float hrX = (float) Math.sin(hrRot) * hrLength;
             float hrY = (float) -Math.cos(hrRot) * hrLength;
-            canvas.drawLine(centerX, centerY, centerX + hrX, centerY + hrY, getHourPaint());
+            canvas.drawLine(centerX, centerY, centerX + hrX, centerY + hrY, getPaint(mHourPaint));
         }
 
-        private Paint getSecondPaint() {
+        private Paint getPaint(Paint paint) {
             if (mIndices != null && !mIndices.isEmpty()) {
                 double change = mIndices.get(Index.DOW);
-                Log.d(TAG, "secondpaint: " + change);
+                Log.d(TAG, "coloring " + paint + "due to change: " + change);
 
                 if (change < 0) {
-                    mSecondPaint.setColor(Color.RED);
+                    paint.setColor(Color.RED);
                 } else if (change > 0) {
-                    mSecondPaint.setColor(Color.GREEN);
+                    paint.setColor(Color.GREEN);
                 } else {
-                    mSecondPaint.setColor(Color.WHITE);
+                    paint.setColor(Color.WHITE);
                 }
             }
-            return mSecondPaint;
-        }
-        private Paint getMinutePaint() {
-            if (mIndices != null && !mIndices.isEmpty()) {
-                double change = mIndices.get(Index.NASDAQ);
-                Log.d(TAG, "minutepaint: " + change);
-
-                if (change < 0) {
-                    mMinutePaint.setColor(Color.RED);
-                } else if (change > 0) {
-                    mMinutePaint.setColor(Color.GREEN);
-                } else {
-                    mMinutePaint.setColor(Color.WHITE);
-                }
-            }
-            return mMinutePaint;
-        }
-        private Paint getHourPaint() {
-            if (mIndices != null && !mIndices.isEmpty()) {
-                double change = mIndices.get(Index.OMX);
-                Log.d(TAG, "hourpaint: " + change);
-
-                if (change < 0) {
-                    mHourPaint.setColor(Color.RED);
-                } else if (change > 0) {
-                    mHourPaint.setColor(Color.GREEN);
-                } else {
-                    mHourPaint.setColor(Color.WHITE);
-                }
-            }
-            return mHourPaint;
+            return paint;
         }
 
         @Override
