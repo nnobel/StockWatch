@@ -118,21 +118,21 @@ public class AnalogWatchFaceStockListenerService extends WearableListenerService
                          if (!dataMap.isEmpty()) {
                              Log.d(TAG, "DataItem !empty");
                              AnalogWatchFaceService.Index index = AnalogWatchFaceService.Index.OMX;
-                             double change = 0;
-                             double d = dataMap.getDouble(AnalogWatchFaceService.Index.OMX.getName());
-                             if (d != 0) {
+                             double change = 0d;
+                             double d = dataMap.getDouble(AnalogWatchFaceService.Index.OMX.getName(), Double.POSITIVE_INFINITY);
+                             if (d != Double.POSITIVE_INFINITY) {
                                  Log.d(TAG, "omx: "+d);
                                  index = AnalogWatchFaceService.Index.OMX;
                                  change = d;
                              }
-                             d = dataMap.getDouble(AnalogWatchFaceService.Index.NASDAQ.getName());
-                             if (d != 0) {
+                             d = dataMap.getDouble(AnalogWatchFaceService.Index.NASDAQ.getName(), Double.POSITIVE_INFINITY);
+                             if (d != Double.POSITIVE_INFINITY) {
                                  Log.d(TAG, "nasdaq: "+d);
                                  index = AnalogWatchFaceService.Index.NASDAQ;
                                  change = d;
                              }
-                             d = dataMap.getDouble(AnalogWatchFaceService.Index.DOW.getName());
-                             if (d != 0) {
+                             d = dataMap.getDouble(AnalogWatchFaceService.Index.DOW.getName(), Double.POSITIVE_INFINITY);
+                             if (d != Double.POSITIVE_INFINITY) {
                                  Log.d(TAG, "dow: "+d);
                                  index = AnalogWatchFaceService.Index.DOW;
                                  change = d;
