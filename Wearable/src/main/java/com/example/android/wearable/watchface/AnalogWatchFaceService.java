@@ -355,22 +355,22 @@ public class AnalogWatchFaceService extends CanvasWatchFaceService {
             if (!isInAmbientMode()) {
                 float secX = (float) Math.sin(secRot) * secLength;
                 float secY = (float) -Math.cos(secRot) * secLength;
-                canvas.drawLine(centerX, centerY, centerX + secX, centerY + secY, getPaint(mSecondPaint));
+                canvas.drawLine(centerX, centerY, centerX + secX, centerY + secY, getPaint(mSecondPaint, Index.DOW));
             }
 
             float minX = (float) Math.sin(minRot) * minLength;
             float minY = (float) -Math.cos(minRot) * minLength;
-            canvas.drawLine(centerX, centerY, centerX + minX, centerY + minY, getPaint(mMinutePaint));
+            canvas.drawLine(centerX, centerY, centerX + minX, centerY + minY, getPaint(mMinutePaint, Index.NASDAQ));
 
             float hrX = (float) Math.sin(hrRot) * hrLength;
             float hrY = (float) -Math.cos(hrRot) * hrLength;
-            canvas.drawLine(centerX, centerY, centerX + hrX, centerY + hrY, getPaint(mHourPaint));
+            canvas.drawLine(centerX, centerY, centerX + hrX, centerY + hrY, getPaint(mHourPaint, Index.OMX));
         }
 
-        private Paint getPaint(Paint paint) {
+        private Paint getPaint(Paint paint, Index index) {
             if (mIndices != null && !mIndices.isEmpty()) {
-                double change = mIndices.get(Index.DOW);
-                Log.d(TAG, "coloring " + paint + "due to change: " + change);
+                double change = mIndices.get(index);
+                Log.d(TAG, "coloring " + index.getName() + " to represent change: " + change);
 
                 if (change < 0) {
                     paint.setColor(Color.RED);
