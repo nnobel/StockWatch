@@ -70,6 +70,8 @@ import java.util.Map;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
+import static java.lang.Math.round;
+
 /**
  * Sample analog watch face with a ticking second hand. In ambient mode, the second hand isn't
  * shown. On devices with low-bit ambient mode, the hands are drawn without anti-aliasing in ambient
@@ -371,11 +373,16 @@ public class AnalogWatchFaceService extends CanvasWatchFaceService {
             if (mIndices != null && !mIndices.isEmpty()) {
                 double change = mIndices.get(index);
                 Log.d(TAG, "coloring " + index.getName() + " to represent change: " + change);
-
+                //Color color = Color.argb(255, 255, 255*(1-change), (255*1-change));
+                change = change > 2 ? 2d : change < -2 ? -2d : change;
                 if (change < 0) {
-                    paint.setColor(Color.RED);
+                    int gb = (int)round(255*(1+change/2));
+                    Log.d(TAG, "green and blue: " + gb);
+                    paint.setColor(Color.argb(255, 255, gb, gb));
                 } else if (change > 0) {
-                    paint.setColor(Color.GREEN);
+                    int rb = (int)round(255*(1-change/2));
+                    Log.d(TAG, "red and blue: " + rb);
+                    paint.setColor(Color.argb(255, rb, 255, rb));
                 } else {
                     paint.setColor(Color.WHITE);
                 }
