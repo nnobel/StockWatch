@@ -28,8 +28,6 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.net.http.AndroidHttpClient;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -49,22 +47,7 @@ import com.google.android.gms.wearable.DataItem;
 import com.google.android.gms.wearable.DataMap;
 import com.google.android.gms.wearable.DataMapItem;
 import com.google.android.gms.wearable.Wearable;
-import com.google.android.gms.wearable.WearableListenerService;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TimeZone;
@@ -88,17 +71,18 @@ public class AnalogWatchFaceService extends CanvasWatchFaceService {
      * second hand.
      */
     private static final long INTERACTIVE_UPDATE_RATE_MS = TimeUnit.SECONDS.toMillis(1);
-    private static Map<Index, Double> mIndices = new HashMap<>();
+    private static Map<Hand, Double> mHands = new HashMap<>();
 
     static {
-        for (Index index : Index.values()) {
-            mIndices.put(index, 0d);
+        for (Hand index : Hand.values()) {
+            mHands.put(index, 0d);
         }
     }
-    public static void setIndices(Index index, double change) {
-        mIndices.put(index, change);
+    public static void setHands(Hand hand, double change) {
+        mHands.put(hand, change);
     }
 
+/*
     public enum Index {
         OMX("Stockholm"), NASDAQ("Nasdaq"), DOW("Dow Jones");
         private String indexName;
@@ -108,6 +92,10 @@ public class AnalogWatchFaceService extends CanvasWatchFaceService {
         public String getName() {
             return indexName;
         }
+    }
+*/
+    public enum Hand {
+        Hour, Minute, Second;
     }
 
     @Override
@@ -139,7 +127,7 @@ public class AnalogWatchFaceService extends CanvasWatchFaceService {
 /*
         private void onIndicesLoaded(Map<Index, Double> indices) {
             if (indices != null && !indices.isEmpty()) {
-                mIndices = indices;
+                mHands = indices;
                 invalidate();
             }
             if (isVisible()) {
@@ -357,22 +345,22 @@ public class AnalogWatchFaceService extends CanvasWatchFaceService {
             if (!isInAmbientMode()) {
                 float secX = (float) Math.sin(secRot) * secLength;
                 float secY = (float) -Math.cos(secRot) * secLength;
-                canvas.drawLine(centerX, centerY, centerX + secX, centerY + secY, getPaint(mSecondPaint, Index.DOW));
+                canvas.drawLine(centerX, centerY, centerX + secX, centerY + secY, getPaint(mSecondPaint, Hand.Second));
             }
 
             float minX = (float) Math.sin(minRot) * minLength;
             float minY = (float) -Math.cos(minRot) * minLength;
-            canvas.drawLine(centerX, centerY, centerX + minX, centerY + minY, getPaint(mMinutePaint, Index.NASDAQ));
+            canvas.drawLine(centerX, centerY, centerX + minX, centerY + minY, getPaint(mMinutePaint, Hand.Minute));
 
             float hrX = (float) Math.sin(hrRot) * hrLength;
             float hrY = (float) -Math.cos(hrRot) * hrLength;
-            canvas.drawLine(centerX, centerY, centerX + hrX, centerY + hrY, getPaint(mHourPaint, Index.OMX));
+            canvas.drawLine(centerX, centerY, centerX + hrX, centerY + hrY, getPaint(mHourPaint, Hand.Hour));
         }
 
-        private Paint getPaint(Paint paint, Index index) {
-            if (mIndices != null && !mIndices.isEmpty()) {
-                double change = mIndices.get(index);
-                Log.d(TAG, "coloring " + index.getName() + " to represent change: " + change);
+        private Paint getPaint(Paint paint, Hand hand) {
+            if (mHands != null && !mHands.isEmpty()) {
+                double change = mHands.get(hand);
+                Log.d(TAG, "coloring " + hand.name() + " to represent change: " + change);
                 //Color color = Color.argb(255, 255, 255*(1-change), (255*1-change));
                 change = change > 2 ? 2d : change < -2 ? -2d : change;
                 if (change < 0) {
@@ -483,22 +471,12 @@ public class AnalogWatchFaceService extends CanvasWatchFaceService {
                     Log.d(TAG, "DataItem updated:" + dataMap);
                     if (!dataMap.isEmpty()) {
                         Log.d(TAG, "DataItem !empty");
-
-                        double d = dataMap.getDouble(Index.OMX.getName());
-                        if (d != 0) {
-                            Log.d(TAG, "omx: "+d);
-                            mIndices.put(Index.OMX, d);
-                        }
-                        d = dataMap.getDouble(Index.NASDAQ.getName());
-                        if (d != 0) {
-                            Log.d(TAG, "nasdaq: "+d);
-                            mIndices.put(Index.NASDAQ, d);
-                        }
-                        d = dataMap.getDouble(Index.DOW.getName());
-                        if (d != 0) {
-                            Log.d(TAG, "dow: "+d);
-                            mIndices.put(Index.DOW, d);
-                        }
+                        Hand hand = Hand.Hour;
+                        putHand(dataMap, hand);
+                        hand = Hand.Minute;
+                        putHand(dataMap, hand);
+                        hand = Hand.Second;
+                        putHand(dataMap, hand);
                         invalidate();
                     }
 
@@ -506,6 +484,14 @@ public class AnalogWatchFaceService extends CanvasWatchFaceService {
                 }
             } finally {
                 dataEvents.close();
+            }
+        }
+
+        private void putHand(DataMap dataMap, Hand hand) {
+            double d = dataMap.getDouble(hand.name());
+            if (d != 0) {
+                Log.d(TAG, String.format("Hand %s. Change: %d", hand.name(), d));
+                mHands.put(hand, d);
             }
         }
 

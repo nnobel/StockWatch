@@ -16,15 +16,9 @@
 
 package com.example.android.wearable.watchface;
 
-import android.net.Uri;
-import android.os.Bundle;
 import android.util.Log;
 
-import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.PendingResult;
-import com.google.android.gms.common.data.FreezableUtils;
 import com.google.android.gms.wearable.DataEvent;
 import com.google.android.gms.wearable.DataEventBuffer;
 import com.google.android.gms.wearable.DataItem;
@@ -32,14 +26,7 @@ import com.google.android.gms.wearable.DataMap;
 import com.google.android.gms.wearable.DataMapItem;
 import com.google.android.gms.wearable.MessageEvent;
 import com.google.android.gms.wearable.Node;
-import com.google.android.gms.wearable.NodeApi;
-import com.google.android.gms.wearable.Wearable;
 import com.google.android.gms.wearable.WearableListenerService;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 /**
  * A {@link com.google.android.gms.wearable.WearableListenerService} listening for {@link com.example.android.wearable.watchface.DigitalWatchFaceService} config messages
@@ -117,27 +104,27 @@ public class AnalogWatchFaceStockListenerService extends WearableListenerService
                          Log.d(TAG, "DataItem updated:" + dataMap);
                          if (!dataMap.isEmpty()) {
                              Log.d(TAG, "DataItem !empty");
-                             AnalogWatchFaceService.Index index = AnalogWatchFaceService.Index.OMX;
+                             AnalogWatchFaceService.Hand hand = AnalogWatchFaceService.Hand.Hour;
                              double change = 0d;
-                             double d = dataMap.getDouble(AnalogWatchFaceService.Index.OMX.getName(), Double.POSITIVE_INFINITY);
+                             double d = dataMap.getDouble(AnalogWatchFaceService.Hand.Hour.name(), Double.POSITIVE_INFINITY);
                              if (d != Double.POSITIVE_INFINITY) {
-                                 Log.d(TAG, "omx: "+d);
-                                 index = AnalogWatchFaceService.Index.OMX;
+                                 Log.d(TAG, "hand: " + AnalogWatchFaceService.Hand.Hour.name() + ": " + d);
+                                 hand = AnalogWatchFaceService.Hand.Hour;
                                  change = d;
                              }
-                             d = dataMap.getDouble(AnalogWatchFaceService.Index.NASDAQ.getName(), Double.POSITIVE_INFINITY);
+                             d = dataMap.getDouble(AnalogWatchFaceService.Hand.Minute.name(), Double.POSITIVE_INFINITY);
                              if (d != Double.POSITIVE_INFINITY) {
-                                 Log.d(TAG, "nasdaq: "+d);
-                                 index = AnalogWatchFaceService.Index.NASDAQ;
+                                 Log.d(TAG, "hand: " + AnalogWatchFaceService.Hand.Minute.name() + ": " + d);
+                                 hand = AnalogWatchFaceService.Hand.Minute;
                                  change = d;
                              }
-                             d = dataMap.getDouble(AnalogWatchFaceService.Index.DOW.getName(), Double.POSITIVE_INFINITY);
+                             d = dataMap.getDouble(AnalogWatchFaceService.Hand.Second.name(), Double.POSITIVE_INFINITY);
                              if (d != Double.POSITIVE_INFINITY) {
-                                 Log.d(TAG, "dow: "+d);
-                                 index = AnalogWatchFaceService.Index.DOW;
+                                 Log.d(TAG, "hand: " + AnalogWatchFaceService.Hand.Second.name() + ": " + d);
+                                 hand = AnalogWatchFaceService.Hand.Second;
                                  change = d;
                              }
-                             AnalogWatchFaceService.setIndices(index, change);
+                             AnalogWatchFaceService.setHands(hand, change);
                          }
                          //TODO: updateUiForConfigDataMap(config);
                      }

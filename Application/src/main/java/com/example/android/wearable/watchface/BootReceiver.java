@@ -24,7 +24,7 @@ import java.util.Map;
 public class BootReceiver extends BroadcastReceiver {
     private static final String TAG = "BootReceiver";
 //    private AsyncTask<Void, Void, String> mLoadIndicesTask = new LoadIndexesTask();
-//    Map<Index, Double> mIndices;
+//    Map<Index, Double> mHands;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -169,7 +169,7 @@ public class BootReceiver extends BroadcastReceiver {
         }
         private void onIndicesLoaded(Map<Index, Double> indices) {
             if (indices != null && !indices.isEmpty()) {
-                mIndices = indices;
+                mHands = indices;
 //                invalidate();
             }
         }

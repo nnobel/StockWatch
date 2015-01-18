@@ -10,6 +10,7 @@ package com.example.android.wearable.watchface;
 public final class R {
     public static final class array {
         public static final int color_array=0x7f050000;
+        public static final int index_array=0x7f050001;
     }
     public static final class attr {
         /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".
@@ -451,7 +452,7 @@ containing a value of this type.
     }
     public static final class id {
         public static final int action_error=0x7f0c0010;
-        public static final int action_settings=0x7f0c0019;
+        public static final int action_settings=0x7f0c001e;
         public static final int action_success=0x7f0c0012;
         public static final int adjust_height=0x7f0c0005;
         public static final int adjust_width=0x7f0c0006;
@@ -459,22 +460,27 @@ containing a value of this type.
         public static final int animation=0x7f0c0013;
         public static final int background=0x7f0c000c;
         public static final int bottom=0x7f0c0001;
+        public static final int button_id=0x7f0c001b;
         public static final int center=0x7f0c0008;
         public static final int center_horizontal=0x7f0c0009;
         public static final int center_vertical=0x7f0c000a;
         public static final int dismiss_overlay_button=0x7f0c0016;
         public static final int dismiss_overlay_explain=0x7f0c0015;
         public static final int error_message=0x7f0c0011;
+        public static final int hour_hand=0x7f0c0018;
         public static final int hours=0x7f0c000d;
+        public static final int index_url=0x7f0c0017;
         public static final int label=0x7f0c000b;
         public static final int left=0x7f0c0002;
         public static final int message=0x7f0c0014;
+        public static final int minute_hand=0x7f0c0019;
         public static final int minutes=0x7f0c000e;
         public static final int none=0x7f0c0007;
         public static final int right=0x7f0c0003;
+        public static final int second_hand=0x7f0c001a;
         public static final int seconds=0x7f0c000f;
-        public static final int text=0x7f0c0018;
-        public static final int title=0x7f0c0017;
+        public static final int text=0x7f0c001d;
+        public static final int title=0x7f0c001c;
         public static final int top=0x7f0c0004;
     }
     public static final class integer {
@@ -487,7 +493,8 @@ containing a value of this type.
         public static final int activity_tilt_watch_face_config=0x7f030003;
         public static final int confirmation_activity_layout=0x7f030004;
         public static final int dismiss_overlay=0x7f030005;
-        public static final int watch_card_content=0x7f030006;
+        public static final int lindex_watch_face_config=0x7f030006;
+        public static final int watch_card_content=0x7f030007;
     }
     public static final class menu {
         public static final int menu_main=0x7f0b0000;
@@ -540,11 +547,20 @@ containing a value of this type.
         public static final int digital_config_seconds=0x7f090029;
         public static final int digital_config_text=0x7f09002a;
         public static final int hello_world=0x7f09002b;
-        public static final int intro_message=0x7f09002c;
-        public static final int ok_no_device_connected=0x7f09002d;
-        public static final int tilt_config_text=0x7f09002e;
-        public static final int title_activity_main=0x7f09002f;
-        public static final int title_no_device_connected=0x7f090030;
+        public static final int hour_hand_label=0x7f09002c;
+        public static final int index_config_text=0x7f09002d;
+        public static final int index_dow=0x7f09002e;
+        public static final int index_nasdaq=0x7f09002f;
+        public static final int index_omx=0x7f090030;
+        public static final int index_url=0x7f090031;
+        public static final int intro_message=0x7f090032;
+        public static final int minute_hand_label=0x7f090033;
+        public static final int ok=0x7f090034;
+        public static final int ok_no_device_connected=0x7f090035;
+        public static final int second_hand_label=0x7f090036;
+        public static final int tilt_config_text=0x7f090037;
+        public static final int title_activity_main=0x7f090038;
+        public static final int title_no_device_connected=0x7f090039;
     }
     public static final class style {
         public static final int AppTheme=0x7f0a0000;

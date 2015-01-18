@@ -60,6 +60,15 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".LindexConfigActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="com.example.android.wearable.watchface.CONFIG_INDEX" />
+                <category android:name="com.google.android.wearable.watchface.category.COMPANION_CONFIGURATION" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".DigitalWatchFaceCompanionConfigActivity"
             android:label="@string/app_name" >
             <intent-filter>

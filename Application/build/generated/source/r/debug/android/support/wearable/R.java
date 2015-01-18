@@ -162,14 +162,14 @@ public final class R {
 		public static final int left = 0x7f0c0002;
 		public static final int message = 0x7f0c0014;
 		public static final int right = 0x7f0c0003;
-		public static final int text = 0x7f0c0018;
-		public static final int title = 0x7f0c0017;
+		public static final int text = 0x7f0c001d;
+		public static final int title = 0x7f0c001c;
 		public static final int top = 0x7f0c0004;
 	}
 	public static final class layout {
 		public static final int confirmation_activity_layout = 0x7f030004;
 		public static final int dismiss_overlay = 0x7f030005;
-		public static final int watch_card_content = 0x7f030006;
+		public static final int watch_card_content = 0x7f030007;
 	}
 	public static final class style {
 		public static final int CardText = 0x7f0a0006;

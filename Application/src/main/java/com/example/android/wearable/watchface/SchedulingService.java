@@ -4,23 +4,17 @@ import android.app.IntentService;
 import android.content.Intent;
 
 
-import android.app.IntentService;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
-import android.support.wearable.companion.WatchFaceCompanion;
 import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.wearable.DataApi;
-import com.google.android.gms.wearable.DataMap;
-import com.google.android.gms.wearable.MessageApi;
 import com.google.android.gms.wearable.Node;
 import com.google.android.gms.wearable.NodeApi;
 import com.google.android.gms.wearable.PutDataMapRequest;
@@ -37,8 +31,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -66,15 +62,10 @@ public class SchedulingService extends IntentService implements GoogleApiClient.
     // The string the app searches for in the Google home page content. If the app finds
     // the string, it indicates the presence of a doodle.
     public static final String SEARCH_STRING = "doodle";
-    // The Google home page URL from which the app fetches content.
-    // You can find a list of other Google domains with possible doodles here:
-    // http://en.wikipedia.org/wiki/List_of_Google_domains
-    //public static final String URL = "http://www.google.com";
-    private static final String URL = "http://finansportalen.services.six.se/finansportalen-web/rest/indicators";
 
     private NotificationManager mNotificationManager;
     NotificationCompat.Builder builder;
-    Map<Index, Double> mIndices;
+    Map<Hand, Double> mHands;
 
     @Override
     public void onCreate() {
@@ -142,19 +133,38 @@ public class SchedulingService extends IntentService implements GoogleApiClient.
         public String getName() {
             return indexName;
         }
+     }
+    public enum Hand {
+        Hour, Minute, Second;
+    }
+    public static List<String> getIndexNames() {
+        List<String> indexes = new ArrayList<String>();
+        for (Index index : Index.values()) {
+            indexes.add(index.getName());
+        }
+        return indexes;
     }
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        String urlString = URL;
+        LindexConfigDTO lindexConfigDTO = LindexConfig.getInstance().getLindexConfig(this.getApplicationContext());
 
-        String result ="";
+        String urlString = null;
+        if (lindexConfigDTO != null) {
+            urlString = lindexConfigDTO.getIndexUrl();
 
-        // Try to connect to the Google homepage and download content.
-        try {
-            result = loadFromNetwork(urlString);
-        } catch (IOException e) {
-            Log.e(TAG, e.getLocalizedMessage(), e);
+            String result = "";
+
+            // Try to connect to the Google homepage and download content.
+            try {
+                result = loadFromNetwork(urlString);
+                Log.d(TAG, String.format("Called %s and obtained the result:\n%s", urlString, result));
+
+            } catch (IOException e) {
+                Log.e(TAG, e.getLocalizedMessage(), e);
+            }
+        } else {
+            Log.w(TAG, "could not obtain a config object");
         }
 
         // Release the wake lock provided by the BroadcastReceiver.
@@ -192,7 +202,7 @@ public class SchedulingService extends IntentService implements GoogleApiClient.
             String str = "";
 
             JSONArray jsonIndices = json.getJSONArray("indices");
-            Map<Index, Double> indices = new HashMap<>();
+            Map<Hand, Double> indices = new HashMap<>();
 
             if (Log.isLoggable(TAG, Log.INFO)) {
                 Log.i(TAG, "number of indices: " + json.getJSONArray("indices").length());
@@ -206,7 +216,7 @@ public class SchedulingService extends IntentService implements GoogleApiClient.
                 double change = changePercentageToday.getDouble("data");
                 Log.d(TAG, "change: " + change);
 
-                indices.put(getIndex(jsonObject.getString("name")), change);
+                indices.put(getHand(getIndex(jsonObject.getString("name"))), change);
             }
 
             onIndicesLoaded(indices);
@@ -217,11 +227,35 @@ public class SchedulingService extends IntentService implements GoogleApiClient.
             }
         }
     }
-    private void onIndicesLoaded(Map<Index, Double> indices) {
+
+    private Hand getHand(Index indexName) {
+        LindexConfigDTO lindexConfigDTO = LindexConfig.getInstance().getLindexConfig(this.getApplicationContext());
+
+        switch (indexName) {
+            case DOW:
+                return getHand(Index.DOW, lindexConfigDTO);
+            case NASDAQ:
+                return getHand(Index.NASDAQ, lindexConfigDTO);
+            default:
+                return getHand(Index.OMX, lindexConfigDTO);
+        }
+    }
+
+    private Hand getHand(Index index, LindexConfigDTO lindexConfigDTO) {
+        if (lindexConfigDTO.getHourHand().equalsIgnoreCase(index.getName())) {
+            return Hand.Hour;
+        } else if(lindexConfigDTO.getMinuteHand().equalsIgnoreCase(index.getName())) {
+            return Hand.Minute;
+        } else {
+            return Hand.Second;
+        }
+    }
+
+    private void onIndicesLoaded(Map<Hand, Double> indices) {
         if (indices != null && !indices.isEmpty()) {
-            mIndices = indices;
-            for (Map.Entry<Index, Double> entry : indices.entrySet()) {
-                Log.d(TAG, "index: " + entry.getKey().getName() + ". Change: " + entry.getValue());
+            mHands = indices;
+            for (Map.Entry<Hand, Double> entry : indices.entrySet()) {
+                Log.d(TAG, "index: " + entry.getKey().name() + ". Change: " + entry.getValue());
 //                DataMap config = new DataMap();
 //                config.putDouble(entry.getKey().getName(), entry.getValue());
 //                byte[] rawData = config.toByteArray();
@@ -230,7 +264,7 @@ public class SchedulingService extends IntentService implements GoogleApiClient.
 //                MessageApi.SendMessageResult result = Wearable.MessageApi.sendMessage(mGoogleApiClient, getNodeId(), PATH_WITH_FEATURE, rawData).await();
 
                 PutDataMapRequest dataMap = PutDataMapRequest.create(PATH_WITH_FEATURE);
-                dataMap.getDataMap().putDouble(entry.getKey().getName(), entry.getValue());
+                dataMap.getDataMap().putDouble(entry.getKey().name(), entry.getValue());
                 PutDataRequest request = dataMap.asPutDataRequest();
                 Wearable.DataApi.putDataItem(mGoogleApiClient, request);
 
@@ -293,6 +327,7 @@ public class SchedulingService extends IntentService implements GoogleApiClient.
 
         URL url = new URL(urlString);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.4; en-US; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2");
         conn.setReadTimeout(10000 /* milliseconds */);
         conn.setConnectTimeout(15000 /* milliseconds */);
         conn.setRequestMethod("GET");

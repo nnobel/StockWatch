@@ -454,16 +454,17 @@ containing a value of this type.
         public static final int ic_plusone_small_off_client=0x7f020071;
         public static final int ic_plusone_standard_off_client=0x7f020072;
         public static final int ic_plusone_tall_off_client=0x7f020073;
-        public static final int preview_analog=0x7f020074;
-        public static final int preview_analog_circular=0x7f020075;
-        public static final int preview_calendar=0x7f020076;
-        public static final int preview_calendar_circular=0x7f020077;
-        public static final int preview_card_bounds=0x7f020078;
-        public static final int preview_card_bounds_circular=0x7f020079;
-        public static final int preview_digital=0x7f02007a;
-        public static final int preview_digital_circular=0x7f02007b;
-        public static final int preview_tilt=0x7f02007c;
-        public static final int preview_tilt_circular=0x7f02007d;
+        public static final int lindex_green=0x7f020074;
+        public static final int preview_analog=0x7f020075;
+        public static final int preview_analog_circular=0x7f020076;
+        public static final int preview_calendar=0x7f020077;
+        public static final int preview_calendar_circular=0x7f020078;
+        public static final int preview_card_bounds=0x7f020079;
+        public static final int preview_card_bounds_circular=0x7f02007a;
+        public static final int preview_digital=0x7f02007b;
+        public static final int preview_digital_circular=0x7f02007c;
+        public static final int preview_tilt=0x7f02007d;
+        public static final int preview_tilt_circular=0x7f02007e;
     }
     public static final class id {
         public static final int action_error=0x7f0d0010;
@@ -553,8 +554,9 @@ containing a value of this type.
         public static final int digital_config_name=0x7f0b0029;
         public static final int digital_name=0x7f0b002a;
         public static final int digital_pm=0x7f0b002b;
-        public static final int sweep_name=0x7f0b002c;
-        public static final int tilt_name=0x7f0b002d;
+        public static final int lindex_name=0x7f0b002c;
+        public static final int sweep_name=0x7f0b002d;
+        public static final int tilt_name=0x7f0b002e;
     }
     public static final class style {
         public static final int CardText=0x7f0c0000;
